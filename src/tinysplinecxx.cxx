@@ -288,6 +288,7 @@ tinyspline::BSpline & tinyspline::BSpline::operator=(
 	const tinyspline::BSpline &other)
 {
 	if (&other != this) {
+		ts_bspline_free(&spline);
 		tsStatus status;
 		if (ts_bspline_copy(&other.spline, &spline, &status))
 			throw std::runtime_error(status.message);
@@ -572,6 +573,7 @@ tinyspline::BSpline tinyspline::BSpline::toBeziers() const
 tinyspline::BSpline tinyspline::BSpline::derive(size_t n, real epsilon) const
 {
 	tinyspline::BSpline bs;
+	ts_bspline_free(&bs.spline);
 	tsStatus status;
 	if (ts_bspline_derive(&spline, n, epsilon, &bs.spline, &status))
 		throw std::runtime_error(status.message);
